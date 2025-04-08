@@ -42,7 +42,7 @@ public Server() {
          String inputText = inputFromClient.readUTF();
 
          // Compute result
-         String result1 = inputText.trim() + "SERVER RESPONSE"; //Test that server responds
+         String result1 = inputText.trim(); //Test that server responds
 
          String result = encrypt(result1, 3); // Using a shift key of 3
 

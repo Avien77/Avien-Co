@@ -59,18 +59,18 @@ public class Client extends JFrame {
    private class ButtonListener implements ActionListener {
      public void actionPerformed(ActionEvent e) {
        try {
-         // Get the radius from the text field
+         // Get the string from the text field
          String inputText = jtf.getText().trim();
 
-         // Send the radius to the server
+         // Send the string to the server
          toServer.writeUTF(inputText);
          toServer.flush();
 
-         // Get area from the server
+         // Get string from the server
          String result =  fromServer.readUTF();
          
          // Display to the text area
-         jta.append("Result is " + result + "\n");
+         jta.append("Original message was: " + inputText + "\n");
          jta.append("Encrypted message received from the server is "
            + result + '\n');
        }

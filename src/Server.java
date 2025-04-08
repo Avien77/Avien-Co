@@ -46,7 +46,7 @@ public Server() {
 
          String result = encrypt(result1, 3); // Using a shift key of 3
 
-         // Send area back to the client
+         // Send string back to the client
          outputToClient.writeUTF(result);
 
          jta.append("Encrypted Text received from client: " + inputText + '\n');

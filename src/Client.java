@@ -23,7 +23,7 @@ public class Client extends JFrame {
       // Panel p to hold the label and text field
       JPanel p = new JPanel();
       p.setLayout(new BorderLayout());
-      p.add(new JLabel("Enter Text"), BorderLayout.WEST);
+      p.add(new JLabel("Enter Text to be encrypted by a caesar cipher of shift 3"), BorderLayout.WEST);
       p.add(jtf, BorderLayout.CENTER); 
       jtf.setHorizontalAlignment(JTextField.RIGHT);
 
@@ -33,7 +33,7 @@ public class Client extends JFrame {
 
       jtf.addActionListener(new ButtonListener()); // Register listener
      setTitle("Client");
-     setSize(500, 300);
+     setSize(800, 400);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      setVisible(true); // It is necessary to show the frame here!
 

@@ -1,8 +1,11 @@
 import java.io.*;
 import java.net.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Client {
     private static final int SHIFT = 3;
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -19,29 +22,53 @@ public class Client {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
-            System.out.println("✅ Connected to server at " + host + ":" + port);
+            // Prompt for username
+            System.out.print(in.readLine() + " ");
+            String[] usernameHolder = new String[1]; // allow mutation from inner class
+            usernameHolder[0] = userIn.readLine();
+            out.println(usernameHolder[0]);
 
+            System.out.println("Connected as \"" + usernameHolder[0] + "\". Type '/list', '/nick <name>', or 'exit'.");
+
+            // Receiving thread
             new Thread(() -> {
-                String incoming;
                 try {
+                    String incoming;
                     while ((incoming = in.readLine()) != null) {
-                        System.out.println(incoming);
+                        String timestamp = LocalTime.now().format(TIME_FORMAT);
+                        System.out.println("\n[" + timestamp + "] " + incoming);
+
+                        // Detect nickname change and update prompt
+                        if (incoming.contains("changed name to")) {
+                            String[] parts = incoming.split(" changed name to ");
+                            if (parts.length == 2 && parts[0].equals(usernameHolder[0])) {
+                                usernameHolder[0] = parts[1];
+                            }
+                        }
+
+                        System.out.print(usernameHolder[0] + ": ");
                     }
                 } catch (IOException e) {
-                    System.out.println("❌ Disconnected from server.");
+                    System.out.println("Disconnected from server.");
                 }
             }).start();
 
+            // Sending loop
             String userMsg;
-            while ((userMsg = userIn.readLine()) != null) {
+            while (true) {
+                System.out.print(usernameHolder[0] + ": ");
+                userMsg = userIn.readLine();
+                if (userMsg == null) break;
+
                 String encrypted = CaesarCipher.encrypt(userMsg, SHIFT);
                 out.println(encrypted);
+
                 if (userMsg.equalsIgnoreCase("exit")) break;
             }
 
-            System.out.println("👋 You left the chat.");
+            System.out.println("You left the chat.");
         } catch (IOException e) {
-            System.err.println("❌ Unable to connect to server: " + e.getMessage());
+            System.err.println("Unable to connect to server: " + e.getMessage());
         }
     }
 }

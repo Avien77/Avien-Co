@@ -13,16 +13,16 @@ V.3:
 Local setup:
 
 - Compile files by running "javac *.java" in the terminal
-- Run Server by running "java Server"
+- Run src.Server by running "java src.Server"
 - Open 2 additional terminal windows
-- Connect each client by running "java Client localhost 1234"
+- Connect each client by running "java src.Client localhost 1234"
 - Chat!
 
 Remote setup:
 
 - Port forward TCP '1234' on host machine
-- Run Server by running "java Server"
-- Open 1 additional terminal window locally and run "java Client localhost 1234"
-- On your friend's PC, compile Client.java and CaesarCipher.java
-- Then run "java Client <your-public-ip> 1234"
+- Run src.Server by running "java src.Server"
+- Open 1 additional terminal window locally and run "java src.Client localhost 1234"
+- On your friend's PC, compile src.Client.java and src.CaesarCipher.java
+- Then run "java src.Client <your-public-ip> 1234"
 - Chat!
